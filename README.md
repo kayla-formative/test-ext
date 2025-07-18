@@ -55,3 +55,4 @@ To update the demo:
 3. Push: `git push origin main`
 4. Wait 2-3 minutes for GitHub Pages to update # Updated: Fri Jul 18 16:09:01 CDT 2025
 # Updated index.html: Fri Jul 18 16:10:16 CDT 2025
+# Added text block components: Fri Jul 18 16:12:24 CDT 2025
