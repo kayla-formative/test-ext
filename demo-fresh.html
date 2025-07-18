@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Design System - Fresh Demo (2025-07-18 22:15)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #1474e6 0%, #691c9c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            margin-top: 40px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .button-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        /* Gradient Button Styles */
+        .gradient-button {
+            align-items: center;
+            background: linear-gradient(135deg, #1474e6 0%, #1f3cd7 25%, #691c9c 100%);
+            border: none;
+            border-radius: 80px;
+            color: white;
+            cursor: pointer;
+            display: inline-flex;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            gap: 4px;
+            height: 32px;
+            justify-content: center;
+            line-height: 19.6px;
+            min-width: 182px;
+            overflow: hidden;
+            padding: 8px 16px 8px 12px;
+            transition: all 0.2s ease-in-out;
+            word-wrap: break-word;
+        }
+
+        .gradient-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(20, 116, 230, 0.3);
+        }
+
+        .gradient-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(20, 116, 230, 0.2);
+        }
+
+        .gradient-button:focus {
+            outline: 2px solid #2a97ff;
+            outline-offset: 2px;
+        }
+
+        .gradient-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Secondary variant */
+        .gradient-button.secondary {
+            background: linear-gradient(135deg, #f7faff 0%, #e6f0ff 25%, #f8f0ff 100%);
+            color: #0d64f2;
+            border: 1px solid #ccdfff;
+        }
+
+        .gradient-button.secondary:hover {
+            background: linear-gradient(135deg, #e6f0ff 0%, #ccdfff 25%, #dab4fd 100%);
+        }
+
+        /* Outline variant */
+        .gradient-button.outline {
+            background: transparent;
+            border: 2px solid #1474e6;
+            color: #1474e6;
+        }
+
+        .gradient-button.outline:hover {
+            background: linear-gradient(135deg, #1474e6 0%, #1f3cd7 25%, #691c9c 100%);
+            color: white;
+        }
+
+        /* Sizes */
+        .gradient-button.small {
+            height: 24px;
+            min-width: 120px;
+            font-size: 12px;
+            padding: 6px 12px 6px 8px;
+        }
+
+        .gradient-button.large {
+            height: 40px;
+            min-width: 200px;
+            font-size: 16px;
+            padding: 10px 20px 10px 16px;
+        }
+
+        /* Input Styles */
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .input-label {
+            color: #1d1d1d;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 15.6px;
+        }
+
+        .gradient-input {
+            align-items: center;
+            background: white;
+            border: 1px solid #691c9c;
+            border-radius: 8px;
+            color: #77767a;
+            display: flex;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 19.6px;
+            outline: none;
+            padding: 8px 12px;
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+        }
+
+        .gradient-input:focus {
+            border-color: #1474e6;
+            box-shadow: 0 0 0 2px rgba(20, 116, 230, 0.1);
+        }
+
+        .gradient-input.has-value {
+            color: #1d1d1d;
+        }
+
+        .supporting-text {
+            color: #77767a;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 15.6px;
+            margin-top: 4px;
+        }
+
+        /* Select Styles */
+        .gradient-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .select-button {
+            align-items: center;
+            background: white;
+            border: 1px solid #691c9c;
+            border-radius: 8px;
+            color: #77767a;
+            cursor: pointer;
+            display: flex;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            justify-content: space-between;
+            line-height: 19.6px;
+            outline: none;
+            padding: 8px 12px;
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+        }
+
+        .select-button:hover {
+            border-color: #1474e6;
+        }
+
+        .select-button:focus {
+            border-color: #1474e6;
+            box-shadow: 0 0 0 2px rgba(20, 116, 230, 0.1);
+        }
+
+        .select-value {
+            color: #77767a;
+        }
+
+        .select-value.has-value {
+            color: #1d1d1d;
+        }
+
+        .select-icon {
+            color: #691c9c;
+            font-size: 12px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .gradient-select.open .select-icon {
+            transform: rotate(180deg);
+        }
+
+        .select-dropdown {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: none;
+            left: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            z-index: 1000;
+        }
+
+        .gradient-select.open .select-dropdown {
+            display: block;
+        }
+
+        .select-option {
+            color: #1d1d1d;
+            cursor: pointer;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 19.6px;
+            padding: 8px 12px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .select-option:hover {
+            background-color: #f5f7fa;
+        }
+
+        .select-option.selected {
+            background-color: #e6f0ff;
+            color: #1474e6;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .theme-button {
+            background: linear-gradient(135deg, #1474e6 0%, #691c9c 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 8px 16px;
+            margin: 0 4px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .theme-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-button.active {
+            background: linear-gradient(135deg, #691c9c 0%, #1474e6 100%);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .feature-item {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid #1474e6;
+            font-weight: 500;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .cta-title {
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .cta-text {
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-switcher">
+        <button class="theme-button active" onclick="switchTheme('default')">Default</button>
+        <button class="theme-button" onclick="switchTheme('warm')">Warm</button>
+        <button class="theme-button" onclick="switchTheme('cool')">Cool</button>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Gradient Design System - Fresh Demo!</h1>
+            <p class="subtitle">
+                A modern, accessible component library with beautiful gradient styling.
+                Built with React, TypeScript, and styled-components.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🎨 Button Variants</h2>
+            <div class="button-grid">
+                <div class="button-group">
+                    <div class="button-label">Primary (Default)</div>
+                    <button class="gradient-button" onclick="handleClick('Primary')">
+                        Primary Button
+                    </button>
+                </div>
+                <div class="button-group">
+                    <div class="button-label">Secondary</div>
+                    <button class="gradient-button secondary" onclick="handleClick('Secondary')">
+                        Secondary Button
+                    </button>
+                </div>
+                <div class="button-group">
+                    <div class="button-label">Outline</div>
+                    <button class="gradient-button outline" onclick="handleClick('Outline')">
+                        Outline Button
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">📏 Button Sizes</h2>
+            <div class="button-grid">
+                <div class="button-group">
+                    <div class="button-label">Small</div>
+                    <button class="gradient-button small" onclick="handleClick('Small')">
+                        Small Button
+                    </button>
+                </div>
+                <div class="button-group">
+                    <div class="button-label">Medium (Default)</div>
+                    <button class="gradient-button" onclick="handleClick('Medium')">
+                        Medium Button
+                    </button>
+                </div>
+                <div class="button-group">
+                    <div class="button-label">Large</div>
+                    <button class="gradient-button large" onclick="handleClick('Large')">
+                        Large Button
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🔧 Button States</h2>
+            <div class="button-grid">
+                <div class="button-group">
+                    <div class="button-label">Default</div>
+                    <button class="gradient-button" onclick="handleClick('Default')">
+                        Click Me
+                    </button>
+                </div>
+                <div class="button-group">
+                    <div class="button-label">Disabled</div>
+                    <button class="gradient-button" disabled>
+                        Disabled Button
+                    </button>
+                </div>
+                <div class="button-group">
+                    <div class="button-label">Loading State</div>
+                    <button class="gradient-button" disabled>
+                        Loading...
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">📝 Input Components</h2>
+            <div class="button-grid">
+                <div class="button-group">
+                    <div class="button-label">Text Input</div>
+                    <div class="input-container">
+                        <label class="input-label">Label</label>
+                        <input class="gradient-input" placeholder="Placeholder" />
+                        <div class="supporting-text">Supporting text</div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <div class="button-label">Select Dropdown</div>
+                    <div class="input-container">
+                        <label class="input-label">Label</label>
+                        <div class="gradient-select">
+                            <div class="select-button">
+                                <span class="select-value">Select an option</span>
+                                <span class="select-icon">▼</span>
+                            </div>
+                            <div class="select-dropdown"></div>
+                        </div>
+                        <div class="supporting-text">Supporting text</div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <div class="button-label">Input with Value</div>
+                    <div class="input-container">
+                        <label class="input-label">Label</label>
+                        <input class="gradient-input has-value" value="Value" />
+                        <div class="supporting-text">Supporting text</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🚀 Features</h2>
+            <ul class="feature-list">
+                <li class="feature-item">✨ Beautiful gradient backgrounds</li>
+                <li class="feature-item">🎯 Fully accessible with ARIA labels</li>
+                <li class="feature-item">📱 Responsive design for all devices</li>
+                <li class="feature-item">⚡ Smooth hover and focus animations</li>
+                <li class="feature-item">🎨 Multiple variants and sizes</li>
+                <li class="feature-item">🔧 TypeScript support</li>
+            </ul>
+        </div>
+
+        <div class="cta-section">
+            <h3 class="cta-title">Ready to use in your project?</h3>
+            <p class="cta-text">
+                This component library is built with modern web standards and is ready for production use.
+            </p>
+            <button class="gradient-button large" onclick="handleClick('Get Started')">
+                Get Started
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function handleClick(buttonType) {
+            console.log(`${buttonType} button clicked!`);
+            alert(`${buttonType} button clicked! This is a demo - in a real app, this would trigger an action.`);
+        }
+
+        // Theme switcher functionality
+        function switchTheme(theme) {
+            const buttons = document.querySelectorAll('.theme-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const container = document.querySelector('.container');
+            if (theme === 'warm') {
+                container.style.background = 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)';
+            } else if (theme === 'cool') {
+                container.style.background = 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)';
+            } else {
+                container.style.background = 'white';
+            }
+        }
+
+        // Select dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const selects = document.querySelectorAll('.gradient-select');
+            
+            selects.forEach(select => {
+                const button = select.querySelector('.select-button');
+                const dropdown = select.querySelector('.select-dropdown');
+                const value = select.querySelector('.select-value');
+                
+                // Create dropdown options
+                const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+                options.forEach(option => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'select-option';
+                    optionElement.textContent = option;
+                    optionElement.addEventListener('click', () => {
+                        value.textContent = option;
+                        value.classList.add('has-value');
+                        select.classList.remove('open');
+                    });
+                    dropdown.appendChild(optionElement);
+                });
+                
+                // Toggle dropdown
+                button.addEventListener('click', () => {
+                    select.classList.toggle('open');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!select.contains(e.target)) {
+                        select.classList.remove('open');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

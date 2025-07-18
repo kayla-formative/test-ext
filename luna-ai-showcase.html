@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna AI - Extension DS v1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1474E6 0%, #1F3CD7 25%, #691C9C 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .showcase-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .showcase-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #1474E6 0%, #1F3CD7 25%, #691C9C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .showcase-subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .component-section {
+            margin-bottom: 60px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 16px;
+        }
+
+        .section-header {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .luna-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .luna-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        /* LUNA AI INTERFACE STYLES */
+        .luna-interface {
+            width: 436px;
+            height: 548px;
+            padding: 24px 32px 40px 32px;
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.90) 100%), linear-gradient(135deg, #00CDF6 0%, #1088EB 25%, #1F3CD7 50%, #691C9C 100%);
+            border-radius: 12px;
+            outline: 2px #00CDF6 solid;
+            outline-offset: -2px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 24px;
+        }
+
+        .luna-interface.form {
+            padding-bottom: 48px;
+        }
+
+        .luna-header {
+            align-self: stretch;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .luna-header.form {
+            justify-content: flex-start;
+            gap: 194px;
+        }
+
+        .luna-brand {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .luna-brand.form {
+            flex: 1;
+        }
+
+        .luna-title {
+            color: #1474E6;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 28px;
+        }
+
+        .luna-logo {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luna-logo-inner {
+            width: 22px;
+            height: 22px;
+            position: absolute;
+            left: 1px;
+            top: 1px;
+            background: linear-gradient(135deg, #1474E6 0%, #1F3CD7 25%, #691C9C 100%);
+            border-radius: 4px;
+        }
+
+        .luna-close-btn {
+            height: 32px;
+            padding: 4px;
+            overflow: hidden;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .luna-close-btn:hover {
+            background-color: rgba(20, 116, 230, 0.1);
+        }
+
+        .luna-close-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luna-close-icon-inner {
+            width: 14px;
+            height: 14px;
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            background: #1D1D1D;
+            border-radius: 2px;
+        }
+
+        .luna-content {
+            width: 372px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .luna-content.form {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .luna-welcome {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .luna-illustration {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .luna-robot {
+            width: 84px;
+            height: 74px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .luna-robot svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .luna-welcome-text {
+            color: #1474E6;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .luna-actions {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .luna-btn {
+            width: 182px;
+            height: 32px;
+            padding: 8px 12px 8px 16px;
+            background: linear-gradient(135deg, #1474E6 0%, #1F3CD7 25%, #691C9C 100%);
+            overflow: hidden;
+            border-radius: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 19.60px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .luna-btn:hover {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(135deg, #1474E6 0%, #1F3CD7 25%, #691C9C 100%);
+            transform: translateY(-1px);
+        }
+
+        .luna-btn.secondary {
+            background: transparent;
+            color: #1474E6;
+            border: 1px solid #1474E6;
+        }
+
+        .luna-btn.secondary:hover {
+            background: rgba(20, 116, 230, 0.1);
+        }
+
+        /* FORM STYLES */
+        .luna-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .luna-form-title {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .luna-form-title-text {
+            color: #1474E6;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 24px;
+        }
+
+        .luna-form-fields {
+            width: 372px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .luna-input-group {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .luna-input-group.filled {
+            opacity: 0.80;
+        }
+
+        .luna-input {
+            align-self: stretch;
+            height: 40px;
+            padding: 4px 8px;
+            background: white;
+            border-radius: 8px;
+            outline: 1px #691C9C solid;
+            outline-offset: -1px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .luna-input.selected {
+            outline: 1px #00CDF6 solid;
+        }
+
+        .luna-input-content {
+            align-self: stretch;
+            padding: 1px 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .luna-input-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .luna-input-label {
+            color: #1D1D1D;
+            font-size: 8px;
+            font-weight: 600;
+            line-height: 10.40px;
+            letter-spacing: 0.15px;
+        }
+
+        .luna-input-value {
+            color: #1D1D1D;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 19.60px;
+        }
+
+        .luna-input-placeholder {
+            color: #5B5A61;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 19.60px;
+        }
+
+        .luna-dropdown-icon {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luna-dropdown-icon-inner {
+            width: 8.33px;
+            height: 4.17px;
+            position: absolute;
+            left: 5.83px;
+            top: 8.33px;
+            background: #5B5A61;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+        }
+
+        .luna-checkbox {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            border-radius: 4px;
+            border: 1px #1D1D1D solid;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .luna-checkbox:hover {
+            border-color: #1474E6;
+        }
+
+        .luna-checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #1474E6;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .luna-checkbox-label {
+            color: #1D1D1D;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            margin-left: 8px;
+        }
+
+        .luna-form-actions {
+            align-self: stretch;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .luna-btn.small {
+            height: 32px;
+            padding: 8px 16px;
+            width: auto;
+        }
+
+        .luna-btn.small.primary {
+            width: 135px;
+        }
+
+        /* FLOATING ROBOT */
+        .floating-robot {
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .floating-robot-body {
+            width: 39.95px;
+            height: 38.96px;
+            position: absolute;
+            left: 0.03px;
+            top: 1.12px;
+            background: linear-gradient(90deg, #691C9C 20%, #1F3CD7 50%, #1088EB 80%, #00CDF6 100%);
+            border-radius: 50%;
+        }
+
+        .floating-robot-head {
+            width: 34.25px;
+            height: 34.29px;
+            position: absolute;
+            left: 3.11px;
+            top: 3.10px;
+            background: linear-gradient(135deg, #1474E6 0%, #1F3CD7 25%, #691C9C 100%);
+            border-radius: 50%;
+        }
+
+        .floating-robot-screen {
+            width: 27.87px;
+            height: 17.04px;
+            position: absolute;
+            left: 6.54px;
+            top: 21.83px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .floating-robot-antenna {
+            width: 1.16px;
+            height: 6.46px;
+            position: absolute;
+            left: 27.58px;
+            top: 29.84px;
+            background: black;
+        }
+
+        .floating-robot-antenna-2 {
+            width: 3.45px;
+            height: 5.62px;
+            position: absolute;
+            left: 30.58px;
+            top: 27.37px;
+            background: #691C9C;
+        }
+
+        .floating-robot-eye {
+            width: 13.11px;
+            height: 11.48px;
+            position: absolute;
+            left: 21.91px;
+            top: 21.29px;
+            background: black;
+            border-radius: 50%;
+        }
+
+        .floating-robot-eye.left {
+            left: 12.83px;
+            top: 36.31px;
+            transform: rotate(180deg);
+        }
+
+        .floating-robot-antenna.left {
+            left: 12.83px;
+            top: 36.31px;
+            transform: rotate(180deg);
+        }
+
+        .floating-robot-antenna-2.left {
+            left: 9.84px;
+            top: 32.99px;
+            transform: rotate(180deg);
+        }
+
+        .floating-robot-eye.left {
+            left: 18.51px;
+            top: 32.77px;
+            transform: rotate(180deg);
+        }
+
+        .floating-robot-jet {
+            width: 4.50px;
+            height: 9.35px;
+            position: absolute;
+            left: 20.56px;
+            top: 29.53px;
+            background: linear-gradient(180deg, #00CDF6 0%, #1088EB 20%, #1F3CD7 50%, #691C9C 80%);
+            border-radius: 2px;
+        }
+
+        .floating-robot-jet.right {
+            left: 15.39px;
+        }
+
+        .floating-robot-display {
+            width: 23.28px;
+            height: 18.48px;
+            position: absolute;
+            left: 8.59px;
+            top: 4.62px;
+            background: linear-gradient(90deg, #691C9C 20%, #1F3CD7 50%, #1088EB 80%, #00CDF6 100%);
+            border-radius: 4px;
+        }
+
+        .floating-robot-display-text {
+            width: 13.38px;
+            height: 4.90px;
+            position: absolute;
+            left: 15.67px;
+            top: 7.52px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .showcase-container {
+                padding: 20px;
+            }
+            
+            .showcase-title {
+                font-size: 2rem;
+            }
+            
+            .luna-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .luna-interface {
+                width: 100%;
+                max-width: 436px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="showcase-container">
+        <div class="showcase-header">
+            <h1 class="showcase-title">Luna AI Assistant</h1>
+            <p class="showcase-subtitle">
+                Composed organisms showcasing AI assistant interfaces using the Extension DS v1 design system.
+                Demonstrates how individual components work together to create complex, real-world applications.
+            </p>
+        </div>
+
+        <div class="component-section">
+            <h2 class="section-header">🤖 Luna AI Interfaces</h2>
+            <div class="luna-grid">
+                <!-- Welcome Interface -->
+                <div class="luna-card">
+                    <div class="luna-interface">
+                        <div class="luna-header">
+                            <div class="luna-brand">
+                                <div class="luna-title">Luna</div>
+                                <div class="luna-logo">
+                                    <div class="luna-logo-inner"></div>
+                                </div>
+                            </div>
+                            <div class="luna-close-btn">
+                                <div class="luna-close-icon">
+                                    <div class="luna-close-icon-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="luna-content">
+                            <div class="luna-welcome">
+                                <div class="luna-illustration">
+                                    <div class="luna-robot">
+                                        <svg width="84" height="74" viewBox="0 0 84 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M75.9151 37.8131C75.9151 53.0601 62.7338 65.4216 47.4868 65.4216C32.2398 65.4216 19.0585 53.0601 19.0585 37.8131C19.0585 22.5661 32.2398 10.2046 47.4868 10.2046C62.7338 10.2046 75.9151 22.5661 75.9151 37.8131Z" stroke="url(#paint0_linear_47_1146)" stroke-width="15.376" stroke-miterlimit="10"/>
+                                            <mask id="mask0_47_1146" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="20" y="10" width="55" height="55">
+                                                <path d="M47.8473 64.3234C62.7872 64.3234 74.8984 52.2122 74.8984 37.2723C74.8984 22.3324 62.7872 10.2212 47.8473 10.2212C32.9074 10.2212 20.7962 22.3324 20.7962 37.2723C20.7962 52.2122 32.9074 64.3234 47.8473 64.3234Z" fill="white"/>
+                                            </mask>
+                                            <g mask="url(#mask0_47_1146)">
+                                                <path d="M47.8476 64.307C62.7875 64.307 74.8987 52.1958 74.8987 37.2558C74.8987 22.3159 62.7875 10.2047 47.8476 10.2047C32.9076 10.2047 20.7964 22.3159 20.7964 37.2558C20.7964 52.1958 32.9076 64.307 47.8476 64.307Z" fill="#FFF1E7"/>
+                                                <path d="M67.3247 49.06L64.177 45.0925L58.0126 41.5349L51.6679 39.7643L44.3886 39.8954L38.7817 41.6004L34.3552 43.6334L32.8304 44.5187L31.8632 45.3384C31.7156 45.5024 31.027 45.8958 31.027 45.8958L36.4045 62.9462C41.7819 66.5858 48.7168 67.8646 55.0451 66.3563C61.3079 64.848 66.8657 60.6182 70.0298 55.0112C70.4233 54.3063 70.2594 54.2407 69.8167 53.5685C68.8494 52.1586 67.3575 49.06 67.3575 49.06H67.3247Z" fill="white"/>
+                                                <path d="M59.9634 52.4211L60.3569 62.6021L61.7832 61.6348L59.9634 52.4211Z" fill="black"/>
+                                                <path d="M38.0931 55.6836V62.9628L36.5028 62.7497L38.0931 55.6836Z" fill="black"/>
+                                                <path d="M66.7181 48.5352C66.0131 49.0271 65.2918 49.4861 64.4884 50.1255C64.1933 50.355 64.095 50.7649 64.2589 51.1092L67.2263 57.3883L69.6363 54.634L66.7345 48.5188L66.7181 48.5352Z" fill="#DEB985"/>
+                                                <path d="M45.0934 39.4035C40.0931 40.7151 38.388 41.3873 35.4206 42.8792C33.7976 43.6989 32.2401 44.617 30.9941 45.8958" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M50.9793 39.4035C53.8812 39.9773 57.3732 41.1578 60.6521 42.8792C63.2589 44.2399 65.6361 46.0106 67.0132 48.6173C68.3904 51.224 69.5872 54.0275 70.702 56.5359" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M60.2256 52.3716L61.6519 61.6346" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M66.718 48.5354C66.0131 49.0272 65.2917 49.4862 64.4884 50.1256C64.1933 50.3552 64.0949 50.765 64.2589 51.1093L67.2263 57.3884" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M55.9138 55.2736V65.4382C55.9138 66.094 55.4056 66.6186 54.7498 66.6186H49.979C49.3232 66.6186 48.7986 66.094 48.7986 65.4382V53.0439C48.7986 52.3881 49.3232 51.8635 49.979 51.8635H52.2578C54.2744 51.8635 55.8975 53.3882 55.8975 55.2572L55.9138 55.2736Z" fill="url(#paint1_linear_47_1146)"/>
+                                                <path d="M47.733 53.0439V65.4546C47.733 66.1104 47.2084 66.635 46.5526 66.635H41.7982C41.1424 66.635 40.6177 66.1104 40.6177 65.4546V53.0439C40.6177 52.3881 41.1424 51.8635 41.7982 51.8635H46.569C47.2248 51.8635 47.7494 52.3881 47.7494 53.0439H47.733Z" fill="url(#paint2_linear_47_1146)"/>
+                                            </g>
+                                            <path d="M47.8474 11.1883C54.8151 11.1883 61.3566 13.8934 66.2914 18.8282C71.2097 23.7466 73.9313 30.3044 73.9313 37.2721C73.9313 44.2398 71.2261 50.7813 66.2914 55.716C61.373 60.6344 54.8151 63.3559 47.8474 63.3559C40.8797 63.3559 34.3383 60.6508 29.4035 55.716C24.4851 50.7977 21.7636 44.2398 21.7636 37.2721C21.7636 30.3044 24.4687 23.7629 29.4035 18.8282C34.3219 13.9098 40.8797 11.1883 47.8474 11.1883ZM47.8474 10.2046C32.9119 10.2046 20.7963 22.3202 20.7963 37.2557C20.7963 52.1912 32.9119 64.3068 47.8474 64.3068C62.7829 64.3068 74.8985 52.1912 74.8985 37.2557C74.8985 22.3202 62.7829 10.2046 47.8474 10.2046Z" fill="black"/>
+                                            <path d="M27.7796 0.00217986C27.9356 -0.0164441 28.104 0.072209 28.1399 0.269568C28.7629 3.61406 29.6974 4.54842 33.0255 5.17142C33.386 5.23704 33.386 5.74528 33.0255 5.81093C29.681 6.43391 28.7629 7.36841 28.1399 10.7128C28.104 10.9101 27.9356 10.9988 27.7796 10.9802C27.6238 10.9987 27.4557 10.9101 27.4198 10.7128C26.7968 7.36841 25.8786 6.43391 22.5342 5.81093C22.1736 5.74535 22.1736 5.23699 22.5342 5.17142C25.8622 4.54842 26.7968 3.61403 27.4198 0.269568C27.4557 0.0723057 27.6238 -0.0163461 27.7796 0.00217986Z" fill="#1088EB"/>
+                                            <path d="M16.4517 13.5658C18.3698 13.1723 18.96 12.5821 19.3535 10.6475C19.747 8.71295 19.7798 10.3852 19.829 10.6475C20.2225 12.5821 20.8127 13.1723 22.7308 13.5658C22.9931 13.6149 22.9931 13.992 22.7308 14.0412C20.8127 14.4347 20.2061 15.0249 19.829 16.9594C19.4519 18.894 19.4027 17.2218 19.3535 16.9594C18.96 15.0249 18.3698 14.4347 16.4517 14.0412C16.1894 13.992 16.1894 13.6149 16.4517 13.5658Z" fill="#00CDF6"/>
+                                            <path d="M74.9481 30.1895H73.7185V2.81053C73.7185 2.13835 74.2595 1.58093 74.9481 1.58093C75.6203 1.58093 76.1777 2.12195 76.1777 2.81053V28.9599C76.1777 29.6321 75.6367 30.1895 74.9481 30.1895Z" fill="url(#paint3_linear_47_1146)"/>
+                                            <path d="M68.292 34.3701C65.5377 34.3701 63.2917 32.124 63.2917 29.3697V25.9268C63.2917 23.1725 65.5377 20.9265 68.292 20.9265C71.0463 20.9265 73.2924 23.1725 73.2924 25.9268V29.3697C73.2924 32.124 71.0463 34.3701 68.292 34.3701Z" fill="white"/>
+                                            <path d="M68.2918 21.402C70.7838 21.402 72.8003 23.4349 72.8003 25.9105V29.3534C72.8003 31.8454 70.7674 33.8619 68.2918 33.8619C65.8162 33.8619 63.7833 31.829 63.7833 29.3534V25.9105C63.7833 23.4185 65.8162 21.402 68.2918 21.402ZM68.2918 20.4183C65.2588 20.4183 62.7996 22.8775 62.7996 25.9105V29.3534C62.7996 32.3864 65.2588 34.8456 68.2918 34.8456C71.3248 34.8456 73.784 32.3864 73.784 29.3534V25.9105C73.784 22.8775 71.3248 20.4183 68.2918 20.4183Z" fill="black"/>
+                                            <path d="M27.1578 34.7476C24.4035 34.7476 22.1574 32.5016 22.1574 29.7473V26.3044C22.1574 23.5501 24.4035 21.304 27.1578 21.304C29.9121 21.304 32.1581 23.5501 32.1581 26.3044V29.7473C32.1581 32.5016 29.9121 34.7476 27.1578 34.7476Z" fill="white"/>
+                                            <path d="M27.1578 21.7791C29.6498 21.7791 31.6663 23.812 31.6663 26.2876V29.7305C31.6663 32.2224 29.6334 34.239 27.1578 34.239C24.6822 34.239 22.6493 32.206 22.6493 29.7305V26.2876C22.6493 23.7956 24.6822 21.7791 27.1578 21.7791ZM27.1578 20.7954C24.1248 20.7954 21.6656 23.2546 21.6656 26.2876V29.7305C21.6656 32.7635 24.1248 35.2227 27.1578 35.2227C30.1908 35.2227 32.65 32.7635 32.65 29.7305V26.2876C32.65 23.2546 30.1908 20.7954 27.1578 20.7954Z" fill="black"/>
+                                            <path d="M48.0468 45.702C60.0767 45.408 69.6121 36.3055 69.3449 25.3709C69.0776 14.4364 59.1089 5.81047 47.0791 6.10447C35.0492 6.39847 25.5138 15.501 25.781 26.4356C26.0482 37.3702 36.017 45.996 48.0468 45.702Z" fill="white" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M47.8478 31.845C53.8974 31.8123 59.0126 32.8123 62.8489 33.9108C63.7342 34.1731 64.6851 33.7468 65.0949 32.9107C65.8655 31.2876 66.2426 29.2711 66.2426 26.7135C66.2098 15.434 58.3732 9.4664 47.0445 9.4664C35.7158 9.4664 29.3711 17.2538 29.4694 27.6152C29.4858 29.8121 29.7974 31.5991 30.3548 33.0419C30.7155 33.9599 31.7319 34.4354 32.6828 34.1403C36.4864 32.9763 41.6671 31.8778 47.8642 31.8287L47.8478 31.845Z" fill="black"/>
+                                            <path d="M47.028 11.5817C52.2087 11.5817 56.5205 12.9261 59.4715 15.4672C62.5209 18.0904 64.0784 21.8775 64.0948 26.7139C64.0948 28.8125 63.8161 30.4847 63.2423 31.7963C58.3403 30.4027 53.258 29.6978 48.1756 29.6978C43.0933 29.6978 47.9461 29.6978 47.8313 29.6978C42.5523 29.7306 37.306 30.5175 32.2401 32.0422C31.8138 30.8618 31.6007 29.3699 31.5843 27.5829C31.5351 22.9104 33.0762 18.7626 35.9452 15.8771C38.7159 13.0736 42.5523 11.5817 47.028 11.5817ZM47.028 9.45042C36.2732 9.45042 29.3546 17.2379 29.453 27.5993C29.4694 29.7961 29.7809 31.5831 30.3383 33.0259C30.6334 33.7636 31.3384 34.2227 32.1089 34.2227C32.8795 34.2227 32.486 34.1899 32.6663 34.1407C36.4699 32.9767 41.6506 31.8783 47.8477 31.8291C47.9625 31.8291 48.0609 31.8291 48.1756 31.8291C54.0777 31.8291 59.0781 32.8127 62.8488 33.8948C63.0292 33.944 63.1931 33.9768 63.3734 33.9768C64.0948 33.9768 64.767 33.5669 65.0785 32.8947C65.849 31.2716 66.2261 29.2551 66.2261 26.6975C66.1933 15.4181 58.3567 9.45042 47.028 9.45042Z" fill="url(#paint4_linear_47_1146)"/>
+                                            <path d="M57.1105 16.0576C59.6681 17.1561 60.8157 18.7627 61.3567 21.5826C61.3567 21.599 61.3567 21.6154 61.3567 21.6482C61.4551 22.5335 60.3403 23.0089 59.8812 22.2056C59.0287 20.6973 57.9139 19.5169 56.4384 19.2382L56.0449 19.1726C55.1268 19.0414 54.5038 18.1725 54.6349 17.2708C54.7825 16.1396 56.0777 15.5658 57.0941 16.0576H57.1105Z" fill="white"/>
+                                            <path d="M48.1102 13.2374C49.4381 13.1882 50.7661 13.4997 52.0449 13.9095C53.0121 14.2046 53.5531 15.2375 53.2416 16.2048C52.9301 17.1557 51.9137 17.6803 50.9464 17.3852C50.3234 17.1393 49.8316 16.713 49.2086 16.4671C47.7331 15.7949 46.1428 15.4834 44.4869 15.3851C43.9787 15.3523 43.4705 15.3523 42.9622 15.3523C42.1917 15.3523 42.0277 14.2866 42.7655 14.0735C44.3066 13.6472 46.1264 13.3193 48.1102 13.2374Z" fill="white"/>
+                                            <path d="M6.45116 44.8461L31.0103 40.2884L33.1744 49.7317L37.2894 58.3225C37.2894 58.3225 34.7811 73.3563 19.9112 69.0445C8.59887 65.7656 8.28734 52.7647 6.43475 44.8461H6.45116Z" fill="white"/>
+                                            <path d="M30.4693 40.682C30.0758 36.0587 29.2397 31.4682 27.9281 26.7302C27.174 25.7301 25.8296 25.2218 24.6 25.4514C23.3704 25.6809 22.3211 26.6482 21.9769 27.845C21.9769 27.845 16.4519 20.5822 16.4191 20.4018C14.5501 20.2707 14.5337 18.7296 13.9927 19.3362C13.9927 19.3362 12.2713 18.7788 12.2877 18.8771C12.55 19.4346 10.4842 19.1558 10.0416 18.7296C10.0416 18.7296 7.8775 19.1886 7.71355 19.1722C5.82817 19.6313 4.36907 21.074 2.97552 22.5331C1.58198 23.9923 1.28689 26.0416 1.63117 28.0253L1.87709 30.9764L3.6805 36.6653L5.51669 41.9444C5.51669 41.9444 7.72995 53.0599 8.09063 53.1747C14.4026 54.6502 22.4851 49.7482 28.1248 46.5348C29.7151 45.6331 30.7316 43.8789 30.4693 40.682Z" fill="white"/>
+                                            <path d="M28.5346 69.5365C28.9445 67.2249 26.7476 64.7657 23.5015 63.9623C20.157 63.1426 16.9764 64.3886 16.4026 66.7494C16.3862 66.815 16.3698 66.8806 16.3534 66.9462C17.7305 68.1266 21.239 70.1923 28.5346 69.5201V69.5365Z" fill="#8A8A93"/>
+                                            <path d="M28.7969 69.1593C29.2068 66.8476 26.7476 64.7655 23.5015 63.9622C20.157 63.1424 16.9436 64.2081 16.3534 66.9624" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M21.9439 27.3371C20.2552 25.1074 20.0913 24.9598 18.4518 22.7302C15.0581 18.0905 8.33636 17.3527 4.12294 21.271C4.04097 21.353 3.95899 21.435 3.87702 21.5006C2.38511 22.9925 1.64734 24.6156 1.64734 26.4681C1.64734 31.239 5.18859 38.6985 6.58213 46.6007C7.54941 52.0929 8.36915 58.2573 12.0415 63.2085C15.3697 67.6842 21.0914 70.3565 25.7638 69.7991C34.1251 68.799 37.1253 63.0117 37.6171 55.6833" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10.0577 33.9442C13.4514 31.8129 16.6976 30.8292 21.6651 29.7472" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M14.9434 32.0256C16.6976 31.7305 19.9765 31.4518 21.1897 32.665L21.9931 31.7305L21.6324 29.8123L14.9598 32.0256H14.9434Z" fill="black"/>
+                                            <path d="M32.5678 47.0104C32.5678 47.0104 31.7644 43.338 30.666 38.8294C29.8298 34.616 28.9937 31.2551 28.1248 27.6483C27.7477 26.058 26.2722 24.976 24.6984 25.4187C22.4687 26.0416 21.0423 27.8614 22.0096 31.7962C21.1899 32.6815 20.5997 33.2225 19.78 34.1078" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10.386 47.9945L28.3217 42.6662" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M62.3731 56.0438C59.4876 55.6504 57.799 59.8966 57.799 61.8967C57.799 63.9624 59.1269 65.4215 60.9631 65.5199C62.7993 65.6019 64.947 64.2247 66.2258 62.3066C67.2587 60.7491 64.1929 56.2897 62.3731 56.0438Z" fill="white" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M73.1116 58.7984C71.7016 60.5198 70.1769 61.5526 69.1605 62.1428C66.7013 63.8315 63.4879 64.1758 61.6025 62.5363C59.0778 60.3558 58.4548 56.6998 60.1106 53.798C60.7664 52.6504 61.5862 51.4372 62.619 50.224C63.6683 48.9944 64.7667 47.9943 65.8323 47.1582C68.4555 45.1089 72.1607 45.1908 74.6854 47.3713L74.997 47.6664C78.8169 51.3552 74.292 57.3392 73.0952 58.782L73.1116 58.7984Z" fill="white" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M70.2425 50.3384L64.1764 57.3553C63.5371 58.093 62.4222 58.1914 61.6517 57.5684L59.8974 56.1257C59.1105 55.3879 58.8482 54.2239 59.2744 53.2238C59.7991 51.9942 60.8811 50.6007 61.9632 49.3383C63.1928 47.912 64.2256 46.6824 65.3404 46.0266C66.3241 45.4528 67.5537 45.6167 68.3734 46.3873L69.9965 47.7152C70.7835 48.3546 70.8982 49.535 70.226 50.3056L70.2425 50.3384Z" fill="#1088EB"/>
+                                            <path d="M59.4877 55.6503C59.0123 54.9289 58.9467 54.0436 59.291 53.2403C59.8156 52.0107 60.8976 50.6335 61.9633 49.3711C63.1601 47.9776 64.1929 46.748 65.2914 46.1086C66.275 45.5184 67.5375 45.6496 68.39 46.4365L70.1278 47.9448" stroke="black" stroke-width="2.42142" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <defs>
+                                                <linearGradient id="paint0_linear_47_1146" x1="15.9272" y1="37.8131" x2="79.03" y2="37.8131" gradientUnits="userSpaceOnUse">
+                                                    <stop offset="0.2" stop-color="#691C9C"/>
+                                                    <stop offset="0.5" stop-color="#1F3CD7"/>
+                                                    <stop offset="0.8" stop-color="#1088EB"/>
+                                                    <stop offset="1" stop-color="#00CDF6"/>
+                                                </linearGradient>
+                                                <linearGradient id="paint1_linear_47_1146" x1="52.3562" y1="53.5849" x2="52.3726" y2="65.3563" gradientUnits="userSpaceOnUse">
+                                                    <stop stop-color="#00CDF6"/>
+                                                    <stop offset="0.2" stop-color="#1088EB"/>
+                                                    <stop offset="0.5" stop-color="#1F3CD7"/>
+                                                    <stop offset="0.8" stop-color="#691C9C"/>
+                                                </linearGradient>
+                                                <linearGradient id="paint2_linear_47_1146" x1="44.0934" y1="53.1259" x2="44.2737" y2="65.635" gradientUnits="userSpaceOnUse">
+                                                    <stop stop-color="#00CDF6"/>
+                                                    <stop offset="0.2" stop-color="#1088EB"/>
+                                                    <stop offset="0.5" stop-color="#1F3CD7"/>
+                                                    <stop offset="0.8" stop-color="#691C9C"/>
+                                                </linearGradient>
+                                                <linearGradient id="paint3_linear_47_1146" x1="74.9523" y1="1.62482" x2="74.7492" y2="30.2647" gradientUnits="userSpaceOnUse">
+                                                    <stop stop-color="#1088EB"/>
+                                                    <stop offset="0.3" stop-color="#1F3CD7"/>
+                                                    <stop offset="0.7" stop-color="#641EA0"/>
+                                                    <stop offset="1" stop-color="#691C9C"/>
+                                                </linearGradient>
+                                                <linearGradient id="paint4_linear_47_1146" x1="29.453" y1="21.8447" x2="66.2261" y2="21.8447" gradientUnits="userSpaceOnUse">
+                                                    <stop offset="0.2" stop-color="#691C9C"/>
+                                                    <stop offset="0.5" stop-color="#1F3CD7"/>
+                                                    <stop offset="0.8" stop-color="#1088EB"/>
+                                                    <stop offset="1" stop-color="#00CDF6"/>
+                                                </linearGradient>
+                                            </defs>
+                                        </svg>
+                                    </div>
+                                    <div class="luna-welcome-text">Where do you want to start?</div>
+                                </div>
+                                <div class="luna-actions">
+                                    <button class="luna-btn" onclick="showMessage('Lesson Generation clicked!')">
+                                        Lesson Generation
+                                    </button>
+                                    <button class="luna-btn" onclick="showMessage('AI Tools clicked!')">
+                                        AI Tools
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floating-robot">
+                        <div class="floating-robot-body"></div>
+                        <div class="floating-robot-head"></div>
+                        <div class="floating-robot-screen"></div>
+                        <div class="floating-robot-antenna"></div>
+                        <div class="floating-robot-antenna-2"></div>
+                        <div class="floating-robot-eye"></div>
+                        <div class="floating-robot-antenna left"></div>
+                        <div class="floating-robot-antenna-2 left"></div>
+                        <div class="floating-robot-eye left"></div>
+                        <div class="floating-robot-jet"></div>
+                        <div class="floating-robot-jet right"></div>
+                        <div class="floating-robot-display"></div>
+                        <div class="floating-robot-display-text"></div>
+                    </div>
+                </div>
+
+                <!-- Form Interface -->
+                <div class="luna-card">
+                    <div class="luna-interface form">
+                        <div class="luna-header form">
+                            <div class="luna-brand form">
+                                <div class="luna-title">Luna</div>
+                                <div class="luna-logo">
+                                    <div class="luna-logo-inner"></div>
+                                </div>
+                            </div>
+                            <div class="luna-close-btn">
+                                <div class="luna-close-icon">
+                                    <div class="luna-close-icon-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="luna-content form">
+                            <div class="luna-form">
+                                <div class="luna-form-title">
+                                    <div class="luna-form-title-text">Create a Slide Deck</div>
+                                </div>
+                                <div class="luna-form-fields">
+                                    <div class="luna-input-group filled">
+                                        <div class="luna-input">
+                                            <div class="luna-input-content">
+                                                <div class="luna-input-text">
+                                                    <div class="luna-input-label">Label</div>
+                                                    <div class="luna-input-value">Create a lesson about this web page</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="luna-input-group">
+                                        <div class="luna-input">
+                                            <div class="luna-input-content">
+                                                <div class="luna-input-text">
+                                                    <div class="luna-input-placeholder">Select grade</div>
+                                                </div>
+                                                <div class="luna-dropdown-icon">
+                                                    <div class="luna-dropdown-icon-inner"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="luna-input-group">
+                                        <div class="luna-input">
+                                            <div class="luna-input-content">
+                                                <div class="luna-input-text">
+                                                    <div class="luna-input-placeholder">Select subject</div>
+                                                </div>
+                                                <div class="luna-dropdown-icon">
+                                                    <div class="luna-dropdown-icon-inner"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="luna-input-group">
+                                        <div class="luna-input selected">
+                                            <div class="luna-input-content">
+                                                <div class="luna-input-text">
+                                                    <div class="luna-input-value">English</div>
+                                                </div>
+                                                <div class="luna-dropdown-icon">
+                                                    <div class="luna-dropdown-icon-inner"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="luna-input-group">
+                                        <div class="luna-input selected">
+                                            <div class="luna-input-content">
+                                                <div class="luna-input-text">
+                                                    <div class="luna-input-value">Slides</div>
+                                                </div>
+                                                <div class="luna-dropdown-icon">
+                                                    <div class="luna-dropdown-icon-inner"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="luna-input-group filled">
+                                        <div class="luna-input">
+                                            <div class="luna-input-content">
+                                                <div class="luna-input-text">
+                                                    <div class="luna-input-label">Number of slides</div>
+                                                    <div class="luna-input-value">10</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div class="luna-checkbox" onclick="toggleCheckbox(this)"></div>
+                                        <div class="luna-checkbox-label">Include images</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="luna-form-actions">
+                            <button class="luna-btn secondary small" onclick="showMessage('Back clicked!')">
+                                Back
+                            </button>
+                            <button class="luna-btn small primary" onclick="showMessage('Next clicked!')">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                    <div class="floating-robot">
+                        <div class="floating-robot-body"></div>
+                        <div class="floating-robot-head"></div>
+                        <div class="floating-robot-screen"></div>
+                        <div class="floating-robot-antenna"></div>
+                        <div class="floating-robot-antenna-2"></div>
+                        <div class="floating-robot-eye"></div>
+                        <div class="floating-robot-antenna left"></div>
+                        <div class="floating-robot-antenna-2 left"></div>
+                        <div class="floating-robot-eye left"></div>
+                        <div class="floating-robot-jet"></div>
+                        <div class="floating-robot-jet right"></div>
+                        <div class="floating-robot-display"></div>
+                        <div class="floating-robot-display-text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <h2 class="section-header">🔧 Interactive Features</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
+                    <h3 style="color: #333; margin-bottom: 12px;">🎨 Design System Integration</h3>
+                    <p style="color: #666; line-height: 1.5;">Uses the same gradient system, typography, and component patterns as the main design system.</p>
+                </div>
+                <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
+                    <h3 style="color: #333; margin-bottom: 12px;">🤖 AI Assistant UI</h3>
+                    <p style="color: #666; line-height: 1.5;">Demonstrates how AI interfaces can be built using consistent design patterns and components.</p>
+                </div>
+                <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
+                    <h3 style="color: #333; margin-bottom: 12px;">📱 Responsive Design</h3>
+                    <p style="color: #666; line-height: 1.5;">Adapts to different screen sizes while maintaining the design system's visual consistency.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px;">
+            <a href="components-showcase.html" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #1474E6 0%, #1F3CD7 25%, #691C9C 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.2s ease;">
+                ← Back to Component Showcase
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function showMessage(message) {
+            console.log(message);
+            alert(message + ' - This is a demo showcase!');
+        }
+
+        function toggleCheckbox(checkbox) {
+            checkbox.classList.toggle('checked');
+            showMessage('Checkbox toggled!');
+        }
+
+        // Add hover effects for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Close button functionality
+            const closeButtons = document.querySelectorAll('.luna-close-btn');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    showMessage('Close button clicked!');
+                });
+            });
+
+            // Input field interactions
+            const inputs = document.querySelectorAll('.luna-input:not(.selected)');
+            inputs.forEach(input => {
+                input.addEventListener('click', () => {
+                    input.classList.add('selected');
+                    showMessage('Input field selected!');
+                });
+            });
+
+            // Dropdown interactions
+            const dropdowns = document.querySelectorAll('.luna-dropdown-icon');
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', () => {
+                    showMessage('Dropdown opened!');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
