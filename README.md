@@ -53,4 +53,4 @@ To update the demo:
 1. Edit the HTML files
 2. Commit changes: `git add . && git commit -m "Update demo"`
 3. Push: `git push origin main`
-4. Wait 2-3 minutes for GitHub Pages to update # Updated Fri Jul 18 16:00:04 CDT 2025
+4. Wait 2-3 minutes for GitHub Pages to update 
